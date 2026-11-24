@@ -1,0 +1,12 @@
+github.com/dlm/blqsort v0.1.0 h1:fgLg0ZX8s1Ya6e8407zg609gdaZO+PB/3d8NGYHyFkw=
+github.com/dlm/blqsort v0.1.0/go.mod h1:ZfAgQO5T8ULwbwDwiNoEWrrcfl6EyMQLaX/JaEU+gV0=
+github.com/jfcg/opt v0.3.1 h1:6zgKvv3fR5OlX2nxUYJC4wtosY30N4vypILgXmRNr34=
+github.com/jfcg/opt v0.3.1/go.mod h1:3ZUYQhiqKM6vVjMRYV1fVZ9a91EQ47b5kg7KsnfRClk=
+github.com/jfcg/rng v1.2.1 h1:Ii8j26J7OB257wwkV5Lnv0nPIzlSXHKmW6ON3TESPPM=
+github.com/jfcg/rng v1.2.1/go.mod h1:8MiE81SvdDGWDNPaZdxKL8RZKWC4Wftno0CBU85Bgzc=
+github.com/jfcg/sixb/v3 v3.0.0 h1:XNrHKvLE8vFEV7XTzchItp1ynOu/NOEorE8kpJ4zFls=
+github.com/jfcg/sixb/v3 v3.0.0/go.mod h1:gpms/eOvlbKGuSucr6jhNqJr7rutHR61MyA9bTbJq8o=
+github.com/jfcg/sorty/v2 v2.1.3 h1:SceE+wYzmgP1BLQmA0G197/9I56TIZCxE296swMoGrc=
+github.com/jfcg/sorty/v2 v2.1.3/go.mod h1:7cHC9LS4PQJ4dDtsPl65RALKtK1Wdoh09hYj/6wihP8=
+github.com/shawnsmithdev/zermelo/v2 v2.1.0 h1:jtwRqTjccBstNq/I0EzS4QaLRJGFRzf0aKi67bObDtY=
+github.com/shawnsmithdev/zermelo/v2 v2.1.0/go.mod h1:mZYnHgRe1WoyVtUdkcRHj7hxQ9pnQyHk1HmiEqOt5JE=

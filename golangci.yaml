@@ -1,0 +1,37 @@
+version: "2"
+linters:
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+  settings:
+    staticcheck:
+      checks:
+        - all
+        # !(a < b) is deliberate: it differs from a >= b for NaN, and the
+        # generated sorts derive from code written that way.
+        - -QF1001
+        # staticcheck defaults that "all" would otherwise turn on
+        - -ST1000
+        - -ST1003
+        - -ST1016
+        - -ST1020
+        - -ST1021
+        - -ST1022
+  exclusions:
+    rules:
+      # Pruning generated code relies on the parser's (untyped) scope
+      # resolution, which is enough for the code generated here.
+      - path: internal/codegen/ast.go
+        text: "SA1019: go/ast.Object"
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  settings:
+    goimports:
+      local-prefixes:
+        - "github.com/dlm"
