@@ -10,14 +10,17 @@
 # it next to the commit of this repository.
 #
 # Benchmarks run single-threaded (GOMAXPROCS=1). On Linux they are pinned to
-# one core with taskset: a performance core on hybrid Intel CPUs (not core 0), or
-# $PIN_CPU if set. macOS cannot pin threads to cores; that is recorded.
-# Takes roughly half an hour. ONLY=crossover or ONLY=threshold runs just that
-# benchmark (a few minutes).
+# one core with taskset: a performance core on hybrid Intel CPUs (not core
+# 0), or $BLQ_PIN_CPU if set. macOS cannot pin threads to cores; that is
+# recorded. Takes roughly half an hour. BLQ_ONLY=crossover or
+# BLQ_ONLY=threshold runs just that benchmark (a few minutes).
 #
 # Laptops slow down on battery (about 20% on the Intel machine used for the
-# blog post), so the script refuses to run on battery unless ALLOW_BATTERY=1.
-# env.txt records the power state and, on Linux, the CPU frequency settings.
+# blog post), so the script refuses to run on battery unless
+# BLQ_ALLOW_BATTERY=1. env.txt records the power state and, on Linux, the
+# CPU frequency settings.
+#
+# All environment variables this script and the tests read start with BLQ_.
 #
 # Works with the bash 3.2 that macOS ships.
 set -euo pipefail
@@ -34,7 +37,7 @@ pinned="no (macOS cannot pin threads to cores)"
 if [ "$(uname -s)" = Linux ]; then
 	pinned="no (taskset not found)"
 	if command -v taskset >/dev/null 2>&1; then
-		cpu=${PIN_CPU:-}
+		cpu=${BLQ_PIN_CPU:-}
 		if [ -z "$cpu" ] && [ -r /sys/devices/cpu_core/cpus ]; then
 			# Hybrid Intel: performance cores are listed here, e.g. "0-3".
 			# Take the last of the first range: core 0 gets more interrupts.
@@ -70,8 +73,8 @@ power_state() {
 power=$(power_state)
 case "$power" in
 "Battery Power"*)
-	if [ "${ALLOW_BATTERY:-}" != 1 ]; then
-		echo "on battery ($power): plug in, or set ALLOW_BATTERY=1" >&2
+	if [ "${BLQ_ALLOW_BATTERY:-}" != 1 ]; then
+		echo "on battery ($power): plug in, or set BLQ_ALLOW_BATTERY=1" >&2
 		exit 1
 	fi
 	;;
@@ -112,18 +115,18 @@ echo "== correctness tests"
 go test -count=1 .
 go test -c -o "$out/exp.test" .
 
-case "${ONLY:-}" in
+case "${BLQ_ONLY:-}" in
 crossover | threshold)
-	name=$(echo "$ONLY" | awk '{print toupper(substr($0, 1, 1)) substr($0, 2)}')
-	echo "== $ONLY only"
-	run "$ONLY.txt" -test.run '^$' -test.bench "^Benchmark$name\$" -test.benchtime=1s -test.count=5
+	name=$(echo "$BLQ_ONLY" | awk '{print toupper(substr($0, 1, 1)) substr($0, 2)}')
+	echo "== $BLQ_ONLY only"
+	run "$BLQ_ONLY.txt" -test.run '^$' -test.bench "^Benchmark$name\$" -test.benchtime=1s -test.count=5
 	rm -f "$out/exp.test"
 	echo "done: $out"
 	exit 0
 	;;
 "") ;;
 *)
-	echo "ONLY must be crossover or threshold" >&2
+	echo "BLQ_ONLY must be crossover or threshold" >&2
 	exit 2
 	;;
 esac

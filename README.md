@@ -12,7 +12,7 @@ dependencies of blqsort itself.
 and writes the results plus a record of the environment (CPU, OS, Go
 version, blqsort version, commit of this repository, pinning, power
 state) to `results/<host>-<arch>/`. Plug laptops in: on battery the script
-refuses to run (override with `ALLOW_BATTERY=1`), since battery power
+refuses to run (override with `BLQ_ALLOW_BATTERY=1`), since battery power
 settings made every benchmark about 20% slower on the Intel machine. The rest of this section
 explains running parts by hand.
 
