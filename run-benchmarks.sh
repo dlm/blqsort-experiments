@@ -15,6 +15,10 @@
 # Takes roughly half an hour. ONLY=crossover or ONLY=threshold runs just that
 # benchmark (a few minutes).
 #
+# Laptops slow down on battery (about 20% on the Intel machine used for the
+# blog post), so the script refuses to run on battery unless ALLOW_BATTERY=1.
+# env.txt records the power state and, on Linux, the CPU frequency settings.
+#
 # Works with the bash 3.2 that macOS ships.
 set -euo pipefail
 
@@ -42,6 +46,37 @@ if [ "$(uname -s)" = Linux ]; then
 	fi
 fi
 
+# power_state prints the power source and CPU power settings, one line.
+power_state() {
+	if [ "$(uname -s)" = Darwin ]; then
+		local src lpm
+		src=$(pmset -g batt | head -1 | sed -n "s/.*'\(.*\)'.*/\1/p")
+		lpm=$(pmset -g | awk '/lowpowermode/ {print $2}')
+		echo "${src:-unknown}, low power mode ${lpm:-unknown}"
+		return
+	fi
+	local src=unknown f c=${cpu:-0}
+	for f in /sys/class/power_supply/*; do
+		[ "$(cat "$f/type" 2>/dev/null)" = Mains ] || continue
+		if [ "$(cat "$f/online" 2>/dev/null)" = 1 ]; then src="AC Power"; else src="Battery Power"; fi
+		break
+	done
+	f=/sys/devices/system/cpu/cpu$c/cpufreq
+	echo "$src, governor $(cat $f/scaling_governor 2>/dev/null || echo unknown)," \
+		"epp $(cat $f/energy_performance_preference 2>/dev/null || echo unknown)," \
+		"platform profile $(cat /sys/firmware/acpi/platform_profile 2>/dev/null || echo unknown)"
+}
+
+power=$(power_state)
+case "$power" in
+"Battery Power"*)
+	if [ "${ALLOW_BATTERY:-}" != 1 ]; then
+		echo "on battery ($power): plug in, or set ALLOW_BATTERY=1" >&2
+		exit 1
+	fi
+	;;
+esac
+
 cpu_name() {
 	if [ "$(uname -s)" = Darwin ]; then
 		sysctl -n machdep.cpu.brand_string
@@ -66,6 +101,7 @@ run() { # run OUTFILE ARGS...: run the test binary, tee output to OUTFILE
 	echo "blqsort: $(cd "$here" && go list -m -f '{{.Version}}{{with .Replace}} (replaced by {{.Path}}){{end}}' github.com/dlm/blqsort)"
 	echo "experiments: $(git -C "$here" describe --always --dirty --abbrev=12)"
 	echo "pinned:  $pinned"
+	echo "power:   $power"
 	echo
 	echo "commands:"
 } >"$out/env.txt"

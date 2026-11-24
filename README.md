@@ -10,8 +10,10 @@ dependencies of blqsort itself.
 
 `./run-benchmarks.sh` runs the full careful suite (roughly half an hour)
 and writes the results plus a record of the environment (CPU, OS, Go
-version, blqsort version, commit of this repository, pinning) to
-`results/<host>-<arch>/`. The rest of this section
+version, blqsort version, commit of this repository, pinning, power
+state) to `results/<host>-<arch>/`. Plug laptops in: on battery the script
+refuses to run (override with `ALLOW_BATTERY=1`), since battery power
+settings made every benchmark about 20% slower on the Intel machine. The rest of this section
 explains running parts by hand.
 
 
