@@ -138,6 +138,10 @@ echo "== libraries, input shapes, branchless pdqsort"
 run bench.txt -test.run '^$' -test.bench '^(BenchmarkLibraries|BenchmarkLibraryShapes|BenchmarkContenders)$' \
 	-test.benchtime=1s -test.count=5
 
+echo "== records: comparator API, branch-free comparators, specialized sorters (1M records)"
+run records.txt -test.run '^$' -test.bench '^(BenchmarkAPI|BenchmarkBranchlessCmp|BenchmarkSpecialized)$' \
+	-test.benchtime=1s -test.count=5
+
 echo "== crossover: fresh vs repeated inputs, 100 to 100K elements"
 run crossover.txt -test.run '^$' -test.bench '^BenchmarkCrossover$' -test.benchtime=1s -test.count=5
 
