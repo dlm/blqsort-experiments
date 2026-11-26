@@ -1,5 +1,7 @@
 github.com/dlm/blqsort v0.1.0 h1:fgLg0ZX8s1Ya6e8407zg609gdaZO+PB/3d8NGYHyFkw=
 github.com/dlm/blqsort v0.1.0/go.mod h1:ZfAgQO5T8ULwbwDwiNoEWrrcfl6EyMQLaX/JaEU+gV0=
+github.com/dlm/blqsort v0.1.1 h1:DZpo997khZPq5BiGKEK4siveYGbcNGoCQaIf/OhyYJ0=
+github.com/dlm/blqsort v0.1.1/go.mod h1:ZfAgQO5T8ULwbwDwiNoEWrrcfl6EyMQLaX/JaEU+gV0=
 github.com/jfcg/opt v0.3.1 h1:6zgKvv3fR5OlX2nxUYJC4wtosY30N4vypILgXmRNr34=
 github.com/jfcg/opt v0.3.1/go.mod h1:3ZUYQhiqKM6vVjMRYV1fVZ9a91EQ47b5kg7KsnfRClk=
 github.com/jfcg/rng v1.2.1 h1:Ii8j26J7OB257wwkV5Lnv0nPIzlSXHKmW6ON3TESPPM=
