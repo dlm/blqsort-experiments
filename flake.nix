@@ -19,8 +19,6 @@
       in
       {
         devShells.default = pkgs.mkShell {
-          # blqsort is a private repository until it is published.
-          GOPRIVATE = "github.com/dlm/blqsort";
           packages = with pkgs; [
             git
             go
